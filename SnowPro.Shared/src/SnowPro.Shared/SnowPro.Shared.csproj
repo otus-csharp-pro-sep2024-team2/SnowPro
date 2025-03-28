@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>SnowPro.Shared</PackageId>
+    <Version>1.0.18</Version>
+    <Authors>Alexander.Efimtsev</Authors>
+    <Company>Sandr</Company>
+    <Description>Common models and contracts for microservices</Description>
+  </PropertyGroup>
+
+</Project>
