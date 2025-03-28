@@ -4,6 +4,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(USE_DOCKER_NUGET)' != 'true'">
-    <LocalPackages>../../nuget-packages</LocalPackages>
+    <LocalPackages>../../../nuget-packages</LocalPackages>
   </PropertyGroup>
 </Project>

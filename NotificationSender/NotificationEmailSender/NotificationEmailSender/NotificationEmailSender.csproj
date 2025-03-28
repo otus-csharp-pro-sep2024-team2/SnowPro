@@ -20,7 +20,7 @@
 </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SnowPro.Shared" Version="1.0.18" />
+    <PackageReference Include="SnowPro.Shared" Version="1.0.26" />
   </ItemGroup>
 
   
