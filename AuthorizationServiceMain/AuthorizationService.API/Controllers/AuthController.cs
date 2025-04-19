@@ -49,7 +49,7 @@ namespace AuthorizationService.API.Controllers
                 return NotFound(new { error = $"Role '{request.Role}' does not exist." });
 
             // Создаём нового пользователя
-            var user = new User(request.Username, request.Email, request.Email, roleId);
+            var user = new User(request.Username, request.Email, request.PhoneNumber, roleId);
             var result = await _userService.RegisterUserAsync(user, request.Password);
 
             if (!result)

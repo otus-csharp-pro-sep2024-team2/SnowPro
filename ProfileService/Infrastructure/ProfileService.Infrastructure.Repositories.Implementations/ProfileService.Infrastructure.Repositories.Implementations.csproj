@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\ProfileService.Application.Repositories.Abstractions\ProfileService.Application.Repositories.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Common\ProfileService.Common\ProfileService.Common.csproj" />
+    <ProjectReference Include="..\..\Domain\ProfileService.Domain.Entities\ProfileService.Domain.Entities.csproj" />
+    <ProjectReference Include="..\ProfileService.Infrastructure.EntityFramework\ProfileService.Infrastructure.EntityFramework.csproj" />
+  </ItemGroup>
+
+</Project>
