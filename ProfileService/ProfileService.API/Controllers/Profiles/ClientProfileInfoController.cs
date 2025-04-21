@@ -83,6 +83,7 @@ public class ClientProfileInfoController : ControllerBase
             UpdatingClientProfileInfoDto profile = _mapper.Map<UpdatingClientProfileInfoModel, UpdatingClientProfileInfoDto>(profileModel);
             await _service.UpdateAsync(userId, profile);
             SharedProfileInfoDto sharedProfileInfoDto = _mapper.Map<UpdatingClientProfileInfoDto, SharedProfileInfoDto>(profile);
+            sharedProfileInfoDto.UserId = userId;
             await _publishEndpoint.Publish(sharedProfileInfoDto);
             return Ok();
         }
