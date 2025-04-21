@@ -17,4 +17,7 @@
     <ProjectReference Include="..\ProfileService.Infrastructure.EntityFramework\ProfileService.Infrastructure.EntityFramework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="SnowPro.Shared" Version="1.0.35" />
+  </ItemGroup>
 </Project>

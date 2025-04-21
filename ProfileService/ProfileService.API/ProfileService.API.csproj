@@ -30,7 +30,7 @@
     <ProjectReference Include="..\Domain\ProfileService.Domain.Entities\ProfileService.Domain.Entities.csproj" />
     <ProjectReference Include="..\Infrastructure\ProfileService.Infrastructure.EntityFramework\ProfileService.Infrastructure.EntityFramework.csproj" />
     <ProjectReference Include="..\Infrastructure\ProfileService.Infrastructure.Repositories.Implementations\ProfileService.Infrastructure.Repositories.Implementations.csproj" />
-	<PackageReference Include="SnowPro.Shared" Version="1.0.28" />
+	<PackageReference Include="SnowPro.Shared" Version="1.0.35" />
   </ItemGroup>
 
 </Project>

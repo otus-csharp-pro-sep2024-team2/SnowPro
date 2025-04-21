@@ -35,6 +35,6 @@
     <PackageReference Include="RabbitMQ.Client" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.2" />
-    <PackageReference Include="SnowPro.Shared" Version="1.0.28" />
+    <PackageReference Include="SnowPro.Shared" Version="1.0.35" />
   </ItemGroup>
 </Project>
