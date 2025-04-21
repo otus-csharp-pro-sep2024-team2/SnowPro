@@ -201,29 +201,6 @@ services:
     networks:
       - snowpro_net
 
-  profile-service:  
-    build:
-      context: .
-      dockerfile: ProfileService/Dockerfile 
-    ports:
-      - 8086:8080
-    depends_on:
-      postgres:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=ProfileServiceDB;Username=room2;Password=room2Password
-      - RabbitMqSettings__Host=rabbitmq
-      - RabbitMqSettings__ExchangeName=user-events
-      - RabbitMqSettings__QueueName=user-service-queue
-      - RabbitMqSettings__Username=room2
-      - RabbitMqSettings__Password=room2Password
-    restart: unless-stopped
-    networks:
-      - snowpro_net
-
 volumes:
   snowprodb-data:
   pgadmin-data:
