@@ -1,13 +1,14 @@
 # Stage 1 — Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-# Создаем папку для локальных пакетов
+
+# Create a folder for local NuGet packages
 RUN mkdir -p /packages
 
-# Копируем локальные NuGet пакеты
+# Copy local NuGet packages
 COPY ./nuget-packages/*.nupkg /packages/
 #RUN ls -la /packages && exit 1
 
-# Добавляем локальную папку как источник NuGet
+# Add the local folder as a NuGet source
 RUN dotnet nuget add source /packages --name local-packages
 
 WORKDIR /src
@@ -16,13 +17,13 @@ ARG ROOT_DIR=AuthorizationServiceMain
 ARG PROJECT_NAME=AuthorizationService.API
 ARG PROJECT_PATH=$ROOT_DIR/$PROJECT_NAME/$PROJECT_NAME.csproj
 
-# Копируем исходники
+# Copy source code
 COPY $ROOT_DIR/. $ROOT_DIR/.
 
-# Восстановление зависимостей
+# Restore dependencies
 RUN dotnet restore $PROJECT_PATH -p:USE_DOCKER_NUGET=true  -v detailed
 
-# Сборка и публикация
+# Build and publish
 RUN dotnet build $PROJECT_PATH -c Release -o /app/build
 RUN dotnet publish $PROJECT_PATH -c Release -o /app/publish
 

@@ -39,7 +39,7 @@ services:
       - snowpro_net
 
   pgadmin: 
-    image: dpage/pgadmin4:9.1
+    image: dpage/pgadmin4:9.2
     environment:
       PGADMIN_DEFAULT_EMAIL: "snowpro@room2.com"
       PGADMIN_DEFAULT_PASSWORD: "room2Password"
@@ -69,6 +69,52 @@ services:
       - RabbitMqSettings__Host=rabbitmq
       - RabbitMqSettings__ExchangeName=user-events
       - RabbitMqSettings__QueueName=user-service-queue
+      - RabbitMqSettings__Username=room2
+      - RabbitMqSettings__Password=room2Password
+    restart: unless-stopped
+    networks:
+      - snowpro_net
+
+  lesson-service:  
+    build:
+      context: .
+      dockerfile: LessonService/Dockerfile 
+    ports:
+      - 8085:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=LessonsDb;Username=room2;Password=room2Password
+      - RabbitMqSettings__Host=rabbitmq
+      - RabbitMqSettings__ExchangeName=user-events
+      - RabbitMqSettings__QueueName=lesson-service-queue
+      - RabbitMqSettings__Username=room2
+      - RabbitMqSettings__Password=room2Password
+    restart: unless-stopped
+    networks:
+      - snowpro_net
+
+  profile-service:  
+    build:
+      context: .
+      dockerfile: ProfileService/Dockerfile 
+    ports:
+      - 8086:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Host=postgres;Port=5432;Database=ProfileServiceDB;Username=room2;Password=room2Password
+      - RabbitMqSettings__Host=rabbitmq
+      - RabbitMqSettings__ExchangeName=user-events
+      - RabbitMqSettings__QueueName=lesson-service-queue
       - RabbitMqSettings__Username=room2
       - RabbitMqSettings__Password=room2Password
     restart: unless-stopped

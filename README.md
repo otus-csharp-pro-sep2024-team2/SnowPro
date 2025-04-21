@@ -11,6 +11,11 @@
    Password: room2Password
 
 3. добавить хотябы одну роль в auth_service."Roles", база AuthorizationDb
-   INSERT INTO auth_service."Roles" SELECT 1, 'Admin'
+   INSERT INTO auth_service."Roles" SELECT 1, 'Admin';
+   INSERT INTO auth_service."Roles" SELECT 2, 'Client';
+   INSERT INTO auth_service."Roles" SELECT 3, 'Instructor';
 
 4. Выод сервисов смотреть в Docker Desktop логах сервисов
+
+5. Token:
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJjNTJlMzgyMi1kMjdjLTRkNTctOTZiNi0zMDk2ODc2NTY0NmMiLCJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzQ0OTc4NzAwLCJleHAiOjE3NDUwNjUxMDAsImlhdCI6MTc0NDk3ODcwMCwiaXNzIjoiQXV0aG9yaXphdGlvblNlcnZpY2UiLCJhdWQiOiJBdXRob3JpemF0aW9uU2VydmljZS5hcGkifQ.OUlIbB6b1rNhN3c5AjccWOEZmsGbfyBqPDbOfn8WxmI
