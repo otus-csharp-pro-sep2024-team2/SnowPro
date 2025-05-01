@@ -25,8 +25,8 @@ if (app.Environment.IsDevelopment())
        c.SwaggerEndpoint("/swagger/v1/swagger.json", "SnowPro LessonService API v1");
     });
 }
-// Autentification
 
+// Autentification
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseExceptionHandler();
@@ -37,7 +37,5 @@ app.MapGroup("/api/v1")
 
 // Apply migrations
 app.UseEfMigration();
-
-
 
 app.Run();
