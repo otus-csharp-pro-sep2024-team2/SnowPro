@@ -29,8 +29,4 @@
     <ProjectReference Include="..\LessonService.Interfaces\LessonService.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SnowPro.Shared" Version="1.0.46" />
-  </ItemGroup>
-
 </Project>
