@@ -37,9 +37,7 @@ public static class ServiceExtensions
             });
 
             // Disable extra logging
-            options.LogTo(_ => { }, LogLevel.None);
-            //options.EnableSensitiveDataLogging();
-            //options.EnableDetailedErrors();
+            options.LogTo(_ => { }, LogLevel.Warning);
         }); 
         services.AddLogging()
             .AddSingleton<IServiceLogger, ServiceLogger>()
@@ -70,7 +68,6 @@ public static class ServiceExtensions
             .AddEndpointsApiExplorer()
             .AddSwaggerGen(c =>
             {
-                // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJjNTJlMzgyMi1kMjdjLTRkNTctOTZiNi0zMDk2ODc2NTY0NmMiLCJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzQ0ODEyNTA1LCJleHAiOjE3NDQ4OTg5MDUsImlhdCI6MTc0NDgxMjUwNSwiaXNzIjoiQXV0aG9yaXphdGlvblNlcnZpY2UiLCJhdWQiOiJBdXRob3JpemF0aW9uU2VydmljZS5hcGkifQ.rWG0fHeqbUxtc2J9O3opfZR7-kSk-Hw6u5179CIGw7s
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -150,13 +147,13 @@ public static class ServiceExtensions
                         h.Username(rabbitConfig.Username);
                         h.Password(rabbitConfig.Password);
                     });
-                    cfg.ReceiveEndpoint(rabbitConfig.QueueName, e =>
+                    cfg.ReceiveEndpoint("lesson-user-registered", e =>
                     {
                         e.Bind(rabbitConfig.ExchangeName, x => x.ExchangeType = "fanout");
                         e.ConfigureConsumer<MessageConsumerUserRegistered>(context);
                     });
                     
-                    cfg.ReceiveEndpoint("my-shared-profile-queue", e =>
+                    cfg.ReceiveEndpoint("lesson-profile-changed", e =>
                     {
                         e.Bind("profile-exchange", x => x.ExchangeType ="fanout");
                         e.ConfigureConsumer<MessageConsumerUserUpdated>(context);
