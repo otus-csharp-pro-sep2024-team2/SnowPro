@@ -6,12 +6,11 @@ using LessonService.Domain.Entities.Base.Exceptions;
 using LessonService.Domain.Entities.Enums;
 using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
-using LessonService.Domain.ValueObjects;
 using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
@@ -20,7 +19,7 @@ public class AssignInstructorCommandHandler(
     AppDbContext context,
     IMessageService messageSender,
     ILessonServiceApp lessonServiceApp,
-    ILogger<AssignInstructorCommandHandler> logger,
+    IServiceLogger logger,
     IMapper mapper) : IRequestHandler<AssignInstructorCommand, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(AssignInstructorCommand command, CancellationToken cancellationToken)

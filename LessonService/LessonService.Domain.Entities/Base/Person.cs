@@ -1,6 +1,4 @@
-﻿using LessonService.Domain.ValueObjects;
-
-namespace LessonService.Domain.Entities.Base;
+﻿namespace LessonService.Domain.Entities.Base;
 
 public class Person(Guid id) : Entity<Guid>(id)
 {

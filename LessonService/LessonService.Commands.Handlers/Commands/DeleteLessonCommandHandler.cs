@@ -1,22 +1,17 @@
 ﻿using AutoMapper;
-using LessonService.Application.Services.Messages;
 using LessonService.Commands.Requests.Commands;
-using LessonService.Domain.Entities;
-using LessonService.Domain.Entities.Enums;
-using LessonService.Domain.Entities.EventMessages;
 using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
 public class DeleteLessonCommandHandler(AppDbContext context,
     ILessonServiceApp lessonServiceApp,
-    IMessageService messageSender,
-    ILogger<DeleteLessonCommandHandler> logger,
+    IServiceLogger logger,
     IMapper mapper): IRequestHandler<DeleteLessonCommand, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(DeleteLessonCommand command, CancellationToken cancellationToken)

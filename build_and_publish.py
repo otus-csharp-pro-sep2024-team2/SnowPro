@@ -3,6 +3,7 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
+import argparse
 
 root_dir = Path(__file__).resolve().parent
 shared_proj = root_dir / "SnowPro.Shared" / "src" / "SnowPro.Shared" / "SnowPro.Shared.csproj"
@@ -44,6 +45,13 @@ def clean_and_restore(project_path):
     print(f"RESTORE: {cmd}")
     run_cmd(cmd, cwd=root_dir)
 
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--build', action='store_true', help='Build package only')
+
+args = parser.parse_args()
+
 new_version = bump_version(shared_proj)
 
 run_cmd("dotnet restore", cwd=shared_proj.parent)
@@ -57,29 +65,38 @@ dst_nupkg.parent.mkdir(parents=True, exist_ok=True)
 shutil.copy2(src_nupkg, dst_nupkg)
 print(f"Copied {nupkg_name} to nuget-packages")
 
+if args.build:
+    print('Build package only package.')
+    exit(0)
+
 for csproj_path in root_dir.rglob("*.csproj"):
     if csproj_path.name == "SnowPro.Shared.csproj":
         continue
-
-    text = csproj_path.read_text(encoding="utf-8")
+    if 'LessonService' not in csproj_path.name:
+        continue
+    # dotnet add package SnowPro.Shared --version=1.0.44 --source ../../nuget-packages
+#    text = csproj_path.read_text(encoding="utf-8")
+#    cmd = f"dotnet add {csproj_path.resolve()} package SnowPro.Shared --version={new_version} --source ../../nuget-packages"
+    cmd = f"dotnet add package SnowPro.Shared --version={new_version} --source ../../nuget-packages"
+    run_cmd(cmd, cwd=csproj_path.parent)
 
     # Есть ли ссылка на SnowPro.Shared?
-    if "PackageReference Include=\"SnowPro.Shared\"" in text:
-        updated = re.sub(r'<PackageReference Include="SnowPro\.Shared" Version=".*?" />',
-                         f'<PackageReference Include="SnowPro.Shared" Version="{new_version}" />',
-                         text)
-    else:
+#    if "PackageReference Include=\"SnowPro.Shared\"" in text:
+#        updated = re.sub(r'<PackageReference Include="SnowPro\.Shared" Version=".*?" />',
+#                         f'<PackageReference Include="SnowPro.Shared" Version="{new_version}" />',
+#                         text)
+#    else:
         # Добавляем блок с зависимостью
-        insert_pos = text.rfind("</Project>")
-        ref_block = (
-            f'  <ItemGroup>\n'
-            f'    <PackageReference Include="SnowPro.Shared" Version="{new_version}" />\n'
-            f'  </ItemGroup>\n'
-        )
-        updated = text[:insert_pos] + ref_block + text[insert_pos:]
-        print(f"Inserted PackageReference in {csproj_path}")
-
-    csproj_path.write_text(updated, encoding="utf-8")
+#        insert_pos = text.rfind("</Project>")
+#        ref_block = (
+#            f'  <ItemGroup>\n'
+#            f'    <PackageReference Include="SnowPro.Shared" Version="{new_version}" />\n'
+#            f'  </ItemGroup>\n'
+#        )
+#        updated = text[:insert_pos] + ref_block + text[insert_pos:]
+#        print(f"Inserted PackageReference in {csproj_path}")
+#
+#    csproj_path.write_text(updated, encoding="utf-8")
     print(f"Processed {csproj_path}")
 
     clean_and_restore(csproj_path)

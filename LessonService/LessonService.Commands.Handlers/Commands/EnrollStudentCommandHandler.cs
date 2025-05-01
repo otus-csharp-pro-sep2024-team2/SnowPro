@@ -4,15 +4,13 @@ using LessonService.Commands.Requests.Commands;
 using LessonService.Domain.Entities;
 using LessonService.Domain.Entities.Base.Exceptions;
 using LessonService.Domain.Entities.Enums;
-using LessonService.Domain.Entities.EventMessages;
 using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
-using LessonService.Domain.ValueObjects;
 using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
@@ -21,7 +19,7 @@ public class EnrollStudentCommandHandler(
     IMapper mapper,
     IMessageService messageSender,
     ILessonServiceApp lessonServiceApp,
-    ILogger<EnrollStudentCommand> logger) : IRequestHandler<EnrollStudentCommand, ApiResponse<LessonModel>>
+    IServiceLogger logger) : IRequestHandler<EnrollStudentCommand, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(EnrollStudentCommand command,
         CancellationToken cancellationToken)

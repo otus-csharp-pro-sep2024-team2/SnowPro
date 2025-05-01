@@ -8,7 +8,7 @@ using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
@@ -17,7 +17,8 @@ public class RescheduleLessonCommandHandler(
     IMessageService messageSender,
     IMapper mapper, 
     ILessonServiceApp lessonServiceApp,
-    ILogger<RescheduleLessonCommand> logger) : IRequestHandler<RescheduleLessonCommand, ApiResponse<LessonModel>>
+    IServiceLogger logger
+    ) : IRequestHandler<RescheduleLessonCommand, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(RescheduleLessonCommand command,
         CancellationToken cancellationToken)

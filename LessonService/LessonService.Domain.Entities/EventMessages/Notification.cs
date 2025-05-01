@@ -1,6 +1,4 @@
-﻿using LessonService.Domain.Entities.Base;
-
-namespace LessonService.Domain.Entities.EventMessages;
+﻿namespace LessonService.Domain.Entities.EventMessages;
 
 public class Notification 
 {

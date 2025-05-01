@@ -3,14 +3,14 @@ using LessonService.Domain.Entities;
 using LessonService.Domain.Entities.Base;
 using LessonService.Domain.Entities.Enums;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using SnowPro.Shared.Contracts;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Application.Services.Messages;
 
 public class MessageService(
     IPublishEndpoint publishEndpoint,
-    ILogger<MessageService> logger,
+    IServiceLogger logger,
     IMapper mapper)
     : IMessageService
 {

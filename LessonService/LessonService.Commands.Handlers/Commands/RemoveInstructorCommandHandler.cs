@@ -7,14 +7,14 @@ using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
 public class RemoveInstructorCommandHandler(AppDbContext context,
     ILessonServiceApp lessonServiceApp,
     IMessageService messageSender,
-    ILogger<RemoveInstructorCommandHandler> logger,
+    IServiceLogger logger,
     IMapper mapper): IRequestHandler<RemoveInstructorCommand, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(RemoveInstructorCommand command, CancellationToken cancellationToken)

@@ -8,13 +8,13 @@ using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Application.Services;
 
 public class LessonServiceApp(
     AppDbContext context,
-    ILogger<LessonServiceApp> logger,
+    IServiceLogger logger,
     IMapper mapper,
     IMessageService messageSender) : ILessonServiceApp
 {

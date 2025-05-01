@@ -6,15 +6,14 @@ using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
-
-public class UpdateLessonCommandHandler(
+internal class UpdateLessonCommandHandler(
     AppDbContext context,
     ILessonServiceApp lessonServiceApp,
-    ILogger<UpdateLessonCommandHandler> logger,
+    IServiceLogger logger,
     IMapper mapper) : IRequestHandler<UpdateLessonCommand, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(UpdateLessonCommand command, CancellationToken cancellationToken)

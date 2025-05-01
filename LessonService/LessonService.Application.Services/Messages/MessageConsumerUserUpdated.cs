@@ -1,15 +1,13 @@
 using AutoMapper;
-using LessonService.Domain.Entities;
-using LessonService.Domain.Entities.Base;
 using LessonService.Infrastructure.EF;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 using SnowPro.Shared.Contracts;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Application.Services.Messages
 {
     public class MessageConsumerUserUpdated(
-        ILogger<MessageConsumerUserUpdated> logger,
+        IServiceLogger logger,
         AppDbContext context,
         IMapper mapper) : IConsumer<SharedProfileInfoDto>
     {

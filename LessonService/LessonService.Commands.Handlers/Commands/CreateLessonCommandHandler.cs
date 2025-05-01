@@ -5,13 +5,13 @@ using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
 public class CreateLessonCommandHandler(
     AppDbContext context,
-    ILogger<CreateLessonCommandHandler> logger,
+    IServiceLogger logger,
     IMapper mapper) : IRequestHandler<CreateLessonCommand, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(CreateLessonCommand lessonInfo, CancellationToken cancellationToken)
@@ -19,16 +19,6 @@ public class CreateLessonCommandHandler(
         try
         {
             var lesson = mapper.Map<CreateLessonCommand, Lesson>(lessonInfo);
-            //     Lesson lesson =new Lesson(
-            //     Guid.Empty,
-            //     lessonInfo.Name,
-            //     lessonInfo.Description,
-            //     DateTime.SpecifyKind(lessonInfo.DateFrom, DateTimeKind.Utc),
-            //     lessonInfo.Duration,
-            //     lessonInfo.TrainingLevel,
-            //     lessonInfo.LessonType,
-            //     lessonInfo.MaxStudents
-            // );
             context.Lessons.Add(lesson);
             await context.SaveChangesAsync(cancellationToken);
             var response = new ApiResponse<LessonModel>

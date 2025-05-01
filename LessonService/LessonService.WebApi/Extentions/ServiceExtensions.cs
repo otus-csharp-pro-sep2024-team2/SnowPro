@@ -10,13 +10,14 @@ using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using LessonService.WebApi.Exception;
 using MassTransit;
-using MassTransit.Transports.Fabric;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SnowPro.Shared.Contracts;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.WebApi.Extentions;
 
@@ -28,8 +29,20 @@ public static class ServiceExtensions
         ArgumentNullException.ThrowIfNull(configuration);
         var dbConnection = configuration.GetConnectionString("DefaultConnection");
         ArgumentNullException.ThrowIfNull(dbConnection);
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseNpgsql(dbConnection, npgsqlOptions =>
+            {
+                npgsqlOptions.MigrationsAssembly("LessonService.Infrastructure.EF");
+            });
 
+            // Disable extra logging
+            options.LogTo(_ => { }, LogLevel.None);
+            //options.EnableSensitiveDataLogging();
+            //options.EnableDetailedErrors();
+        }); 
         services.AddLogging()
+            .AddSingleton<IServiceLogger, ServiceLogger>()
             .AddScoped<IRequestHandler<RemoveInstructorCommand, ApiResponse<LessonModel>>,
                 RemoveInstructorCommandHandler>()
             .AddScoped<ILessonServiceApp, LessonServiceApp>()
@@ -43,8 +56,12 @@ public static class ServiceExtensions
                         .AllowAnyHeader();
                 });
             })
-            .AddNpgsql<AppDbContext>(dbConnection,
-                options => { options.MigrationsAssembly("LessonService.Infrastructure.EF"); })
+            // .AddNpgsql<AppDbContext>(dbConnection,
+            //     options =>
+            //     {
+            //         options.MigrationsAssembly("LessonService.Infrastructure.EF");
+            //         // options.LogTo(msg => Console.Error.WriteLine(msg), LogLevel.Error);
+            //     })
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateLessonCommandHandler).Assembly))
             .AddAutoMapper(typeof(Program), typeof(LessonMapping))
             .AddRabbit(configuration)

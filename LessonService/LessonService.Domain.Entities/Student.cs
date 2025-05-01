@@ -1,6 +1,5 @@
 ﻿using LessonService.Domain.Entities.Base;
 using LessonService.Domain.Entities.Interfaces;
-using LessonService.Domain.ValueObjects;
 
 namespace LessonService.Domain.Entities;
 

@@ -1,0 +1,8 @@
+# Используем Nginx
+FROM nginx:alpine
+
+# Копируем билд в папку для статики
+COPY SnowPro.WebUI/build/ /usr/share/nginx/html
+
+# Копируем наш конфиг
+COPY SnowPro.WebUI/nginx.conf /etc/nginx/conf.d/default.conf

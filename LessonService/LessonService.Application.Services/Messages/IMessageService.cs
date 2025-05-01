@@ -1,7 +1,6 @@
 ﻿using LessonService.Domain.Entities;
 using LessonService.Domain.Entities.Base;
 using LessonService.Domain.Entities.Enums;
-using SnowPro.Shared.Contracts;
 
 namespace LessonService.Application.Services.Messages
 {

@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using LessonService.Domain.Models.System;
 using Microsoft.AspNetCore.Diagnostics;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.WebApi.Exception;
 
-public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : System.Exception, IExceptionHandler
+public class GlobalExceptionHandler(IServiceLogger logger) : System.Exception, IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync( HttpContext httpContext,
         System.Exception exception,

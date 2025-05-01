@@ -1,7 +1,4 @@
-﻿using LessonService.Domain.Entities.Enums;
-using LessonService.Domain.ValueObjects;
-
-namespace LessonService.Domain.Models.Lesson;
+﻿namespace LessonService.Domain.Models.Lesson;
 
 public record LessonModel(
     Guid Id,

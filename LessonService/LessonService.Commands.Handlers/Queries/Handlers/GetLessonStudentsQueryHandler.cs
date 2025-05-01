@@ -5,14 +5,15 @@ using LessonService.Infrastructure.EF;
 using LessonService.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Queries.Handlers;
 
 public class GetLessonStudentsQueryHandler(
     AppDbContext context,
     ILessonServiceApp lessonServiceApp,
-    ILogger<GetAllStudentsOfLessonQuery> logger) : IRequestHandler<GetAllStudentsOfLessonQuery, ApiResponse<List<StudentModel>>>
+    IServiceLogger logger
+    ) : IRequestHandler<GetAllStudentsOfLessonQuery, ApiResponse<List<StudentModel>>>
 {
     public async Task<ApiResponse<List<StudentModel>>> Handle(GetAllStudentsOfLessonQuery query, CancellationToken cancellationToken)
     {

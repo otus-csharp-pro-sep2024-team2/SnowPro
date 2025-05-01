@@ -1,13 +1,20 @@
-using LessonService.Infrastructure.EF;
 using LessonService.WebApi.Endpoints;
 using LessonService.WebApi.Extentions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
+
+// Read configuration for Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
 builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
+app.UseLogWrapper();
+
 app.UseCors("AllowAll");
 
 if (app.Environment.IsDevelopment())
@@ -20,12 +27,8 @@ if (app.Environment.IsDevelopment())
 }
 // Autentification
 
-    app.UseAuthentication();
-    app.UseAuthorization();
-
-
-
-app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseExceptionHandler();
 
 app.MapGroup("/api/v1")
@@ -33,10 +36,8 @@ app.MapGroup("/api/v1")
     .MapLessonEndPoint();
 
 // Apply migrations
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate(); // Apply migrations
-}
+app.UseEfMigration();
+
+
 
 app.Run();

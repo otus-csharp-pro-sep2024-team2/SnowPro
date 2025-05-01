@@ -34,15 +34,11 @@ const AssignInstructorDialog = ({open, lessonId, onClose, onSuccess, currentInst
                     { userId: NIL, name: "— Без инструктора —" },
                     ...list,
                 ];
-
                 setInstructors(listWithEmpty);
-                //setInstructors(list);
-
             })
             .catch((err) => console.error(err));
-        //console.log(instructors)
 
-    }, [lessonId]);
+    }, [lessonId, currentInstructorId]);
 
     const handleAssign = () => {
         if (!selectedInstructorId) return;
@@ -70,7 +66,6 @@ const AssignInstructorDialog = ({open, lessonId, onClose, onSuccess, currentInst
                 });
         }
     };
-    //console.log({open})
     return (
         <Dialog
             open={open}
@@ -83,7 +78,7 @@ const AssignInstructorDialog = ({open, lessonId, onClose, onSuccess, currentInst
                 },
             }}
         >
-            <DialogTitle>Assign Instructor {currentInstructorId ? `#${currentInstructorId}` : ''} </DialogTitle>
+            <DialogTitle>Assign Instructor</DialogTitle>
             <DialogContent>
                 <TextField
                     select

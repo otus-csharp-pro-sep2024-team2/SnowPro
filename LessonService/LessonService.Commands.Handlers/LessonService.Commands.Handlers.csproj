@@ -22,12 +22,8 @@
       <ProjectReference Include="..\LessonService.Interfaces\LessonService.Interfaces.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Queries\Request\" />
-    </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
-    <PackageReference Include="SnowPro.Shared" Version="1.0.35" />
+    <PackageReference Include="SnowPro.Shared" Version="1.0.46" />
   </ItemGroup>
 </Project>

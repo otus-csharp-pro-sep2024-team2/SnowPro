@@ -4,14 +4,15 @@ using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
 using LessonService.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Logging;
+using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Queries.Handlers;
 
 public class GetLessonByIdQueryHandler(
     IMapper mapper,
     ILessonServiceApp lessonServiceApp,
-    ILogger<GetLessonByIdQuery> logger) : IRequestHandler<GetLessonByIdQuery, ApiResponse<LessonModel>>
+    IServiceLogger logger
+    ) : IRequestHandler<GetLessonByIdQuery, ApiResponse<LessonModel>>
 {
     public async Task<ApiResponse<LessonModel>> Handle(GetLessonByIdQuery query, CancellationToken cancellationToken)
     {

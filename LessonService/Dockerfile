@@ -32,4 +32,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
+RUN mkdir -p /app/logs
+
 ENTRYPOINT ["dotnet", "LessonService.WebApi.dll"]

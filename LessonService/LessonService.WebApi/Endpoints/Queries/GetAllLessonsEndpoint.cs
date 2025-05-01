@@ -8,6 +8,7 @@ public static class GetAllLessonsEndpoint
     public static void Map(IEndpointRouteBuilder app)
     {
         // Endpoint to get all lessons
+        //logger.LogInformation("Mapping endpoint: " + HelperEndpoint.baseUrl);
         HelperEndpoint.ConfigureEndpoint(app.MapGet(HelperEndpoint.baseUrl, async (IMediator mediator) =>
             {
                 var result = await mediator.Send(new GetAllLessonsQuery());

@@ -1,5 +1,4 @@
-﻿using LessonService.WebApi.Endpoints.Commands;
-using LessonService.WebApi.Endpoints.Commands.Lesson;
+﻿using LessonService.WebApi.Endpoints.Commands.Lesson;
 using LessonService.WebApi.Endpoints.Commands.Student;
 using LessonService.WebApi.Endpoints.Commands.Instructor;
 using LessonService.WebApi.Endpoints.Queries;
