@@ -1,4 +1,4 @@
-# SnowPro.Preview
+# SnowPro
 Выпускная работа C# Porfessional.Otus.Preview
 
 Тема: "Ski school management system" ("Управление горнолыжной школой")
