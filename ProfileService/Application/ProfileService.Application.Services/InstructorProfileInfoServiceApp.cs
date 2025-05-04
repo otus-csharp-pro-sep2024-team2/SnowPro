@@ -97,6 +97,29 @@ public class InstructorProfileInfoServiceApp : IInstructorProfileInfoServiceApp
         instructorProfile.IsActive = true;
         instructorProfile.IsDeleted = false;
 
+        var sportEquipmentProfile = new List<TypeSportEquipmentProfile>();
+
+        if (creatingInstructorProfileDto.TypeSportEquipmentProfile != null)
+        {
+            foreach (CreatingTypeSportEquipmentProfileInfoDto sportEquipmentDto in creatingInstructorProfileDto.TypeSportEquipmentProfile)
+            {
+                TypeSportEquipmentProfile sportEquipment = _mapper.Map<CreatingTypeSportEquipmentProfileInfoDto, TypeSportEquipmentProfile>(sportEquipmentDto);
+                sportEquipment.ProfileInfo = instructorProfile;
+
+                if (sportEquipmentDto.TypeSportEquipmentName != null)
+                {
+                    sportEquipment.TypeSportEquipment = await _typeSportEquipmentRepository.GetByNameAsync(sportEquipmentDto.TypeSportEquipmentName, CancellationToken.None);
+                }
+
+                if (sportEquipmentDto.LevelTrainingName != null)
+                {
+                    sportEquipment.LevelTraining = await _levelTrainingRepository.GetByNameAsync(sportEquipmentDto.LevelTrainingName, CancellationToken.None);
+                }
+                sportEquipmentProfile.Add(sportEquipment);
+            }
+        }
+        instructorProfile.TypeSportEquipmentProfile = sportEquipmentProfile;
+
         var createdInstructorProfile = await _instructorProfileRepository.AddAsync(instructorProfile);
 
         await _instructorProfileRepository.SaveChangesAsync();

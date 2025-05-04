@@ -11,7 +11,7 @@ namespace ProfileService.API.Controllers;
 [ApiController]
 [EnableCors("AllowReactApp")]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class PositionController : ControllerBase
 {
     private readonly IPositionServiceApp _service;

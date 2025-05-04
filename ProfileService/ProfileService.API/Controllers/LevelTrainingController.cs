@@ -11,7 +11,7 @@ namespace ProfileService.API.Controllers;
 [ApiController]
 [EnableCors("AllowReactApp")]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class LevelTrainingController : ControllerBase
 {
     private readonly ILevelTrainingServiceApp _service;

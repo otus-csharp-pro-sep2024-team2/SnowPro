@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ProfileService.Application.Abstractions;
 using ProfileService.Application.Contracts.ClientProfileInfoContracts;
+using ProfileService.Application.Contracts.TypeSportEquipmentProfileInfoContracts;
 using ProfileService.Application.Repositories.Abstractions;
 using ProfileService.Common.Enums;
 using ProfileService.Domain.Entities;
@@ -14,20 +15,20 @@ public class ClientProfileInfoServiceApp : IClientProfileInfoServiceApp
 {
     private readonly IMapper _mapper;
     private readonly IClientProfileInfoRepository _profileRepository;
-    //private readonly IBusControl _busControl;
-    //private readonly IUnitOfWork _unitOfWork;
+    private readonly ITypeSportEquipmentRepository _typeSportEquipmentRepository;
+    private readonly ILevelTrainingRepository _levelTrainingRepository;
 
     public ClientProfileInfoServiceApp(
             IMapper mapper,
-            IClientProfileInfoRepository profileRepository
-        //IUnitOfWork unitOfWork,
-        //IBusControl busControl
+            IClientProfileInfoRepository profileRepository,
+            ITypeSportEquipmentRepository typeSportEquipmentRepository,
+            ILevelTrainingRepository levelTrainingRepository
         )
     {
         _mapper = mapper;
         _profileRepository = profileRepository;
-        //_busControl = busControl;
-        //_unitOfWork = unitOfWork;
+        _typeSportEquipmentRepository = typeSportEquipmentRepository;
+        _levelTrainingRepository = levelTrainingRepository;
     }
 
     /// <summary>
@@ -80,6 +81,30 @@ public class ClientProfileInfoServiceApp : IClientProfileInfoServiceApp
         clientProfile.IsActive = true;
         clientProfile.IsDeleted = false;
         clientProfile.OwnerProfileInfoId = ownerId;
+
+        var sportEquipmentProfile = new List<TypeSportEquipmentProfile>();
+
+        if (creatingProfileDto.TypeSportEquipmentProfile != null)
+        {
+            foreach (CreatingTypeSportEquipmentProfileInfoDto sportEquipmentDto in creatingProfileDto.TypeSportEquipmentProfile)
+            {
+                TypeSportEquipmentProfile sportEquipment = _mapper.Map<CreatingTypeSportEquipmentProfileInfoDto, TypeSportEquipmentProfile>(sportEquipmentDto);
+                sportEquipment.ProfileInfo = clientProfile;
+
+                if (sportEquipmentDto.TypeSportEquipmentName != null)
+                {
+                    sportEquipment.TypeSportEquipment = await _typeSportEquipmentRepository.GetByNameAsync(sportEquipmentDto.TypeSportEquipmentName, CancellationToken.None);
+                }
+
+                if (sportEquipmentDto.LevelTrainingName != null)
+                {
+                    sportEquipment.LevelTraining = await _levelTrainingRepository.GetByNameAsync(sportEquipmentDto.LevelTrainingName, CancellationToken.None);
+                }
+                sportEquipmentProfile.Add(sportEquipment);
+            }
+        }
+        clientProfile.TypeSportEquipmentProfile = sportEquipmentProfile;
+
         var createdClientProfile = await _profileRepository.AddAsync(clientProfile);
         await _profileRepository.SaveChangesAsync();
         return createdClientProfile.Id;
@@ -111,6 +136,30 @@ public class ClientProfileInfoServiceApp : IClientProfileInfoServiceApp
         profile.Gender = updatingProfileDto.Gender;
         profile.PhoneNumber = updatingProfileDto.PhoneNumber;
         profile.TelegramName = updatingProfileDto.TelegramName;
+        profile.Email = updatingProfileDto.Email;
+
+        var sportEquipmentProfile = new List<TypeSportEquipmentProfile>();
+
+        if (updatingProfileDto.TypeSportEquipmentProfile != null)
+        {
+            foreach (CreatingTypeSportEquipmentProfileInfoDto sportEquipmentDto in updatingProfileDto.TypeSportEquipmentProfile)
+            {
+                TypeSportEquipmentProfile sportEquipment = _mapper.Map<CreatingTypeSportEquipmentProfileInfoDto, TypeSportEquipmentProfile>(sportEquipmentDto);
+                sportEquipment.ProfileInfo = profile;
+
+                if (sportEquipmentDto.TypeSportEquipmentName != null)
+                {
+                    sportEquipment.TypeSportEquipment = await _typeSportEquipmentRepository.GetByNameAsync(sportEquipmentDto.TypeSportEquipmentName, CancellationToken.None);
+                }
+
+                if (sportEquipmentDto.LevelTrainingName != null)
+                {
+                    sportEquipment.LevelTraining = await _levelTrainingRepository.GetByNameAsync(sportEquipmentDto.LevelTrainingName, CancellationToken.None);
+                }
+                sportEquipmentProfile.Add(sportEquipment);
+            }
+        }
+        profile.TypeSportEquipmentProfile = sportEquipmentProfile;
 
         _profileRepository.Update(profile);
         await _profileRepository.SaveChangesAsync();

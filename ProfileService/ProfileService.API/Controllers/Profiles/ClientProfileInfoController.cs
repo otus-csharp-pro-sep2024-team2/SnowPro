@@ -122,6 +122,7 @@ public class ClientProfileInfoController : ControllerBase
     /// <param name="itemsPerPage"> Количество элементов на странице. </param>
     /// <returns></returns>
     [HttpGet("list")]
+    [Authorize(Roles = "Admin, Instructor")]
     public async Task<IActionResult> GetListAsync(int page, int itemsPerPage)
     {
         try

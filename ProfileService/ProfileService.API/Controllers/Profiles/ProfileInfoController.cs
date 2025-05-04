@@ -63,6 +63,7 @@ public class ProfileInfoController : ControllerBase
     /// <param name="userId"> Идентификатор пользователя. </param>
     /// <param name="profileModel"> Модель создаваемого профиля. </param>
     [HttpPost]
+    [Authorize(Roles = "Admin, Instructor")]
     public async Task<IActionResult> CreateAsync(Guid userId, CreatingProfileInfoModel profileModel)
     {
         try
@@ -86,6 +87,7 @@ public class ProfileInfoController : ControllerBase
     /// <param name="profileModel"> Модель редактируемого профиля. </param>
     /// <returns></returns>
     [HttpPut("{id:Guid}")]
+    [Authorize(Roles = "Admin, Instructor")]
     public async Task<IActionResult> UpdateAsync(Guid id, UpdatingProfileInfoModel profileModel)
     {
         try
@@ -110,6 +112,7 @@ public class ProfileInfoController : ControllerBase
     /// <param name="id"> Идентификатор профиля. </param>
     /// <returns></returns>
     [HttpDelete("{id:Guid}")]
+    [Authorize(Roles = "Admin, Instructor")]
     public async Task<IActionResult> DeleteAsync(Guid id)
     {
         try
@@ -133,6 +136,7 @@ public class ProfileInfoController : ControllerBase
     /// <param name="itemsPerPage"> Количество элементов на странице. </param>
     /// <returns></returns>
     [HttpGet("list")]
+    [Authorize(Roles = "Admin, Instructor")]
     public async Task<IActionResult> GetListAsync(int page, int itemsPerPage)
     {
         try

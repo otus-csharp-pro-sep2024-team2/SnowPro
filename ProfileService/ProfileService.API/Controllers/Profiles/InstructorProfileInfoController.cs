@@ -64,6 +64,7 @@ public class InstructorProfileInfoController : ControllerBase
     /// <param name="instructorProfileModel"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateByUserIdAsync(Guid userId, CreatingInstructorProfileInfoModel instructorProfileModel)
     {
         return Ok(await _service.CreateAsync(userId, _mapper.Map<CreatingInstructorProfileInfoDto>(instructorProfileModel)));
@@ -98,6 +99,7 @@ public class InstructorProfileInfoController : ControllerBase
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
     [HttpPut("confirmСhanges")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ConfirmСhangesAsync(Guid userId, ProfileStatuses profileStatus)
     {
         try
@@ -120,6 +122,7 @@ public class InstructorProfileInfoController : ControllerBase
     /// <param name="userId"> Идентификатор профиля инструктора. </param>
     /// <returns></returns>
     [HttpDelete]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteAsync(Guid userId)
     {
         try
@@ -162,6 +165,7 @@ public class InstructorProfileInfoController : ControllerBase
     /// <param name="itemsPerPage"> Количество элементов на странице. </param>
     /// <returns></returns>
     [HttpGet("listRequiredConfirmation")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetRequiredConfirmationAsync(int page, int itemsPerPage)
     {
         try
