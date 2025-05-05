@@ -56,12 +56,6 @@ public static class ServiceExtensions
                         .AllowAnyHeader();
                 });
             })
-            // .AddNpgsql<AppDbContext>(dbConnection,
-            //     options =>
-            //     {
-            //         options.MigrationsAssembly("LessonService.Infrastructure.EF");
-            //         // options.LogTo(msg => Console.Error.WriteLine(msg), LogLevel.Error);
-            //     })
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateLessonCommandHandler).Assembly))
             .AddAutoMapper(typeof(Program), typeof(LessonMapping))
             .AddRabbit(configuration)
