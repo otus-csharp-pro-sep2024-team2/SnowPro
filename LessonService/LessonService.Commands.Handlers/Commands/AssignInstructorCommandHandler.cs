@@ -1,8 +1,6 @@
 using AutoMapper;
 using LessonService.Application.Services.Messages;
 using LessonService.Commands.Requests.Commands;
-using LessonService.Domain.Entities;
-using LessonService.Domain.Entities.Base.Exceptions;
 using LessonService.Domain.Entities.Enums;
 using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
