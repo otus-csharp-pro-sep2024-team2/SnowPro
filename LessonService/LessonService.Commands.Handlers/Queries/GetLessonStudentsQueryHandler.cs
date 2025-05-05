@@ -7,11 +7,11 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SnowPro.Shared.ServiceLogger;
 
-namespace LessonService.Commands.Queries.Handlers;
+namespace LessonService.Commands.Queries;
 
 public class GetLessonStudentsQueryHandler(
     AppDbContext context,
-    ILessonServiceApp lessonServiceApp,
+    IUnitOfWork unitOfWork,
     IServiceLogger logger
     ) : IRequestHandler<GetAllStudentsOfLessonQuery, ApiResponse<List<StudentModel>>>
 {
@@ -20,7 +20,7 @@ public class GetLessonStudentsQueryHandler(
         var response = new ApiResponse<List<StudentModel>>();
         try
         {
-            var lesson = await lessonServiceApp.FindLesson(query.LessonId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.FindLesson(query.LessonId, cancellationToken);
             response.Data = await context.LessonGroups
                 .Where(lg => lg.LessonId == query.LessonId)
                 .Select(p => new StudentModel(p.StudentId, p.Student.Name))

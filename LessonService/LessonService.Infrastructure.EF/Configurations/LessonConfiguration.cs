@@ -11,7 +11,6 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
     {
         builder.ToTable("Lessons");
         builder.HasKey(e => e.Id);
-//        builder.HasOne(e => e.Instructor).WithOne().HasForeignKey<Instructor>(e => e.Id);
         builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.InstructorId).IsRequired(false);
         builder.Property(e => e.Name).IsRequired().HasMaxLength(100);
@@ -29,11 +28,5 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
         builder.HasMany(l => l.LessonGroups)
             .WithOne(lg => lg.Lesson)
             .HasForeignKey(lg => lg.LessonId);
-        
-            // builder.HasData(
-            //     new Lesson("Lesson 1", "Description 1") { Instructor = { } },
-            //     new Lesson("Lesson 2", "Description 2")
-            // );
-                
     }
 }

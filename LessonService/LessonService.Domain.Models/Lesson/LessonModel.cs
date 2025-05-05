@@ -13,21 +13,3 @@ public record LessonModel(
     InstructorModel? Instructor,
     List<StudentModel> Students
 );
-/*
-{
-    public LessonResponse() 
-    {
-        Id = Guid.Empty;
-        Name = "";
-        Description = "";
-        DateFrom = DateTime.Now;
-        Duration = 0;
-        MaxStudents = 0;
-        LessonType = LessonType.None;
-        TrainingLevel = TrainingLevel.Beginner;
-        LessonStatus = LessonStatus.Scheduled;
-        Instructor = new InstructorModel(Guid.Empty, "");
-        Students = new List<StudentResponse>();
-    }
-}
-*/

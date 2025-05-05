@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LessonService.Application.Services\LessonService.Application.Services.csproj" />
+      <ProjectReference Include="..\LessonService.Infrastructure.EF\LessonService.Infrastructure.EF.csproj" />
+      <ProjectReference Include="..\LessonService.Interfaces\LessonService.Interfaces.csproj" />
+    </ItemGroup>
+
+</Project>

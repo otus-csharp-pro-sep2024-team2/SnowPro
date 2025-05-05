@@ -3,5 +3,5 @@
 public record StudentModel
 (
     Guid StudentId,
-    string name
+    string Name
 );

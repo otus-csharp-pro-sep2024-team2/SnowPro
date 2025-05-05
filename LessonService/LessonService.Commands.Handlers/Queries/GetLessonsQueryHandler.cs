@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SnowPro.Shared.ServiceLogger;
 
-namespace LessonService.Commands.Queries.Handlers;
+namespace LessonService.Commands.Queries;
 
 public class GetLessonsQueryHandler(
     AppDbContext context,

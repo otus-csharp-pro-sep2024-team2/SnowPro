@@ -1,16 +1,16 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LessonService.Commands.Requests.Commands;
 using LessonService.Domain.Entities;
 using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
-using LessonService.Infrastructure.EF;
+using LessonService.Interfaces;
 using MediatR;
 using SnowPro.Shared.ServiceLogger;
 
 namespace LessonService.Commands.Commands;
 
 public class CreateLessonCommandHandler(
-    AppDbContext context,
+    IUnitOfWork unitOfWork,
     IServiceLogger logger,
     IMapper mapper) : IRequestHandler<CreateLessonCommand, ApiResponse<LessonModel>>
 {
@@ -19,19 +19,18 @@ public class CreateLessonCommandHandler(
         try
         {
             var lesson = mapper.Map<CreateLessonCommand, Lesson>(lessonInfo);
-            context.Lessons.Add(lesson);
-            await context.SaveChangesAsync(cancellationToken);
-            var response = new ApiResponse<LessonModel>
+            await unitOfWork.Lessons.AddAsync(lesson, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return new ApiResponse<LessonModel>
             {
                 Message = "Lesson has been created.",
                 Data = mapper.Map<LessonModel>(lesson)
             };
-            logger.LogInformation(response.Message);
-            return response;
         }
         catch (Exception ex)
         {
-            logger.LogError($"Error creating lesson: {ex.Message}");
+            logger.LogError(ex, "Failed to create lesson");
             throw;
         }
     }

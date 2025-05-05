@@ -23,7 +23,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LessonService.Domain.Entities\LessonService.Domain.Entities.csproj" />
-      <ProjectReference Include="..\LessonService.Domain.ValueObjects\LessonService.Domain.ValueObjects.csproj" />
     </ItemGroup>
 
   <ItemGroup>

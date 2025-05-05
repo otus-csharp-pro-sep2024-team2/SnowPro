@@ -7,7 +7,12 @@ namespace LessonService.Domain.Entities
 {
     public class Lesson : Entity<Guid>, ILesson
     {
-        public Lesson(Guid id, string name, string description, DateTime dateFrom, int duration, TrainingLevel trainingLevel, 
+        public Lesson(Guid id,
+            string name,
+            string description,
+            DateTime dateFrom,
+            int duration,
+            TrainingLevel trainingLevel, 
             LessonType lessonType, int maxStudents) : base (id)
         {
             Name = name;
@@ -65,7 +70,7 @@ namespace LessonService.Domain.Entities
                 _ => new LessonStatusNotValidException(this)
             };
         }
-        public void EnrollStudent(IStudent student)
+        public void EnrollStudent(Student student)
         {
             if (LessonGroups.Count >= MaxStudents)                     
                 throw new LessonMaxStudentException(this);
@@ -73,10 +78,9 @@ namespace LessonService.Domain.Entities
             LessonGroups.Add(new LessonGroup() { Lesson = this, Student = (Student)student });
         }
 
-        public void UnEnrollStudent(IStudent istudent)
+        public void UnEnrollStudent(Student student)
         {
             ValidateLesson();
-            var student = (Student)istudent;
             var group = LessonGroups.FirstOrDefault(p => p.LessonId == this.Id && p.StudentId == (student).Id); 
             if (group == null)
                 throw new StudentNotEnrolledException(student);
@@ -133,7 +137,7 @@ namespace LessonService.Domain.Entities
             LessonStatus = LessonStatus.InProgress;
         }
 
-        public void AssignInstructor(IInstructor instructor)
+        public void AssignInstructor(Instructor instructor)
         {
             ValidateLesson();
             Instructor = (Instructor) instructor;

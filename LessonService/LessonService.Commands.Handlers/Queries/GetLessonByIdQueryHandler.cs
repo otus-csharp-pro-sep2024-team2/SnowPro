@@ -6,11 +6,11 @@ using LessonService.Interfaces;
 using MediatR;
 using SnowPro.Shared.ServiceLogger;
 
-namespace LessonService.Commands.Queries.Handlers;
+namespace LessonService.Commands.Queries;
 
 public class GetLessonByIdQueryHandler(
     IMapper mapper,
-    ILessonServiceApp lessonServiceApp,
+    IUnitOfWork unitOfWork,
     IServiceLogger logger
     ) : IRequestHandler<GetLessonByIdQuery, ApiResponse<LessonModel>>
 {
@@ -19,7 +19,7 @@ public class GetLessonByIdQueryHandler(
         var response = new ApiResponse<LessonModel>();
         try
         {
-            var lesson = await lessonServiceApp.FindLesson(query.LessonId, new CancellationToken());
+            var lesson = await unitOfWork.Lessons.FindLesson(query.LessonId, cancellationToken);
             response.Data = mapper.Map<LessonModel>(lesson);
             response.Message = "Lesson has been loaded successfully";
             return response;

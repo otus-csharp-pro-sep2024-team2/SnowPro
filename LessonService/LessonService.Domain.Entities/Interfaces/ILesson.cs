@@ -5,9 +5,9 @@ namespace LessonService.Domain.Entities.Interfaces
     public interface ILesson
     {
         void ValidateLesson();
-        void EnrollStudent(IStudent student);
-        void UnEnrollStudent(IStudent student);
-        void AssignInstructor(IInstructor instructorId);
+        void EnrollStudent(Student student);
+        void UnEnrollStudent(Student student);
+        void AssignInstructor(Instructor instructorId);
         void RemoveInstructor();
         void Reschedule(DateTime dateFrom, int duration);
         void CancelLesson();

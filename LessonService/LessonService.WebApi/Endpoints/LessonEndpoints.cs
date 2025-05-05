@@ -1,6 +1,6 @@
 ﻿using LessonService.WebApi.Endpoints.Commands.Lesson;
 using LessonService.WebApi.Endpoints.Commands.Student;
-using LessonService.WebApi.Endpoints.Commands.Instructor;
+using LessonService.WebApi.Endpoints.Commands.Trainer;
 using LessonService.WebApi.Endpoints.Queries;
 
 namespace LessonService.WebApi.Endpoints;

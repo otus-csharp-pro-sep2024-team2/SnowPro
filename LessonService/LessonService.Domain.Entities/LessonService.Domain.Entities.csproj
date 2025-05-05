@@ -12,10 +12,6 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\LessonService.Domain.ValueObjects\LessonService.Domain.ValueObjects.csproj" />
-    </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
     <PackageReference Include="SnowPro.Shared" Version="1.0.47" />

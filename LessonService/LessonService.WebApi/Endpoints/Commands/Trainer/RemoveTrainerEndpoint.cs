@@ -1,7 +1,7 @@
 ﻿using LessonService.Commands.Requests.Commands;
 using MediatR;
 
-namespace LessonService.WebApi.Endpoints.Commands.Instructor;
+namespace LessonService.WebApi.Endpoints.Commands.Trainer;
 
 public static class RemoveInstructorEndpoint
 {

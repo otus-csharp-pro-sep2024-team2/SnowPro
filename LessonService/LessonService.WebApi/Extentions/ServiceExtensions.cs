@@ -7,6 +7,7 @@ using LessonService.Commands.Requests.Commands;
 using LessonService.Domain.Models.Lesson;
 using LessonService.Domain.Models.System;
 using LessonService.Infrastructure.EF;
+using LessonService.Infrastructure.Repositories;
 using LessonService.Interfaces;
 using LessonService.WebApi.Exception;
 using MassTransit;
@@ -43,7 +44,8 @@ public static class ServiceExtensions
             .AddSingleton<IServiceLogger, ServiceLogger>()
             .AddScoped<IRequestHandler<RemoveInstructorCommand, ApiResponse<LessonModel>>,
                 RemoveInstructorCommandHandler>()
-            .AddScoped<ILessonServiceApp, LessonServiceApp>()
+            .AddScoped<ILessonRepository, LessonRepository>()
+            .AddScoped<IUnitOfWork, UnitOfWork>()
             .AddAuthJwt(configuration)
             .AddCors(options =>
             {
