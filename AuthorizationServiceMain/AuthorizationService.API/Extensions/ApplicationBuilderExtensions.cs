@@ -15,12 +15,18 @@ public static class ApplicationBuilderExtensions
     }
     private static void SeedInitialData(ApplicationDbContext context)
     {
-        if (context.Roles.Any()) return;
-        context.Roles.AddRange(
-            new Role { Id=1, Name = "Admin" },
-            new Role { Id=2, Name = "Client" },
-            new Role { Id=3, Name = "Instructor" }
-        );
+        var rolesToAdd = new List<Role>
+        {
+            new() { Id = 1, Name = "Admin" },
+            new() { Id = 2, Name = "Client" },
+            new() { Id = 3, Name = "Instructor" }
+        };
+
+        foreach (var role in rolesToAdd.Where(role => !context.Roles.Any(r => r.Name == role.Name)))
+        {
+            context.Roles.Add(role);
+        }
+
         context.SaveChanges();
     }    
 }
