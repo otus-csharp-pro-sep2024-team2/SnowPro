@@ -1,6 +1,7 @@
 using AutoMapper;
 using LessonService.Domain.Entities;
-using LessonService.Infrastructure.EF;
+using LessonService.Domain.Entities.Base;
+using LessonService.Interfaces;
 using MassTransit;
 using SnowPro.Shared.Contracts;
 using SnowPro.Shared.ServiceLogger;
@@ -9,16 +10,14 @@ namespace LessonService.Application.Services.Messages
 {
     public class MessageConsumerUserRegistered(
         IServiceLogger logger,
-        AppDbContext context, IMapper mapper) : IConsumer<UserRegisteredDto>
+        IUnitOfWork unitOfWork,
+        IMapper mapper) : IConsumer<UserRegisteredDto>
     {
-        private ConsumeContext<UserRegisteredDto>? _contextMq;
-
         public async Task Consume(ConsumeContext<UserRegisteredDto> contextMq)
         {
-            _contextMq = contextMq;
             var message = contextMq.Message;
             logger.LogInformation($"Received new user registration: {message.UserId} ({message.Username})");
-            if (message.RoleName.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+            if ( message.RoleName.Equals("Admin", StringComparison.OrdinalIgnoreCase))
             {
                 logger.LogWarning($"User {message.UserId} is an admin, skipping.");
                 return;
@@ -26,7 +25,7 @@ namespace LessonService.Application.Services.Messages
             logger.LogInformation($"Processing new user registration: {message.UserId} ({message.Username})");
             try
             {
-                var person = await context.Persons.FindAsync(message.UserId);
+                var person = await unitOfWork.Lessons.GetPersonByIdAsync<Person>(message.UserId, contextMq.CancellationToken);
                 if (person is not null)
                 {
                     logger.LogWarning($"User {message.UserId} already exists in the database.");
@@ -45,8 +44,7 @@ namespace LessonService.Application.Services.Messages
                     logger.LogWarning($"Unknown role: {message.RoleName}");
                     throw new Exception($"Unknown role: {message.RoleName}");
                 };
-                await context.Persons.AddAsync(person);
-                await context.SaveChangesAsync();
+                await unitOfWork.Lessons.AddPersonAsync(person);
                 logger.LogInformation($"User {message.UserId} ({message.Username}) added to the database.");
             }
             catch (Exception e)

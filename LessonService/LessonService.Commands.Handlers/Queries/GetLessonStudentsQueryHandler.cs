@@ -10,7 +10,6 @@ using SnowPro.Shared.ServiceLogger;
 namespace LessonService.Commands.Queries;
 
 public class GetLessonStudentsQueryHandler(
-    AppDbContext context,
     IUnitOfWork unitOfWork,
     IServiceLogger logger
     ) : IRequestHandler<GetAllStudentsOfLessonQuery, ApiResponse<List<StudentModel>>>
@@ -20,11 +19,7 @@ public class GetLessonStudentsQueryHandler(
         var response = new ApiResponse<List<StudentModel>>();
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(query.LessonId, cancellationToken);
-            response.Data = await context.LessonGroups
-                .Where(lg => lg.LessonId == query.LessonId)
-                .Select(p => new StudentModel(p.StudentId, p.Student.Name))
-                .ToListAsync(cancellationToken: cancellationToken);
+            response.Data = await unitOfWork.Lessons.GetLessonStudentsAsync(query.LessonId, cancellationToken); 
             response.Message = "Students list has been loaded.";
             return response;
         }

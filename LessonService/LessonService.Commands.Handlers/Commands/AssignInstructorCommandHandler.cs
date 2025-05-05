@@ -23,8 +23,8 @@ public class AssignInstructorCommandHandler(
     {
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(command.LessonId, cancellationToken);
-            var instructor = await unitOfWork.Lessons.FindInstructor(command.InstructorId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.GetLessonByIdAsync(command.LessonId, cancellationToken);
+            var instructor = await unitOfWork.Lessons.GetInstructorByIdAsync(command.InstructorId, cancellationToken);
             lesson.AssignInstructor(instructor);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             await messageSender.PublishNotification(lesson, instructor, NotificationType.InstructorAssigned);

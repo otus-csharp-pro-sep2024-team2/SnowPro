@@ -19,7 +19,7 @@ public class GetLessonByIdQueryHandler(
         var response = new ApiResponse<LessonModel>();
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(query.LessonId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.GetLessonByIdAsync(query.LessonId, cancellationToken);
             response.Data = mapper.Map<LessonModel>(lesson);
             response.Message = "Lesson has been loaded successfully";
             return response;

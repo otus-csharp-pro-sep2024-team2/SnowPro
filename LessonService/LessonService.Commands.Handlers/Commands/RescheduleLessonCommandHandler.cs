@@ -19,7 +19,7 @@ public class RescheduleLessonCommandHandler(
     {
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(command.LessonId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.GetLessonByIdAsync(command.LessonId, cancellationToken);
             lesson.Reschedule(DateTime.SpecifyKind(command.DateFrom, DateTimeKind.Utc), command.Duration);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return new ApiResponse<LessonModel>

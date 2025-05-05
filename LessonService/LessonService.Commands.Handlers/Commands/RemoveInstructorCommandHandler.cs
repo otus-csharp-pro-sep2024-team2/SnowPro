@@ -19,7 +19,7 @@ public class RemoveInstructorCommandHandler(
     {
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(command.LessonId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.GetLessonByIdAsync(command.LessonId, cancellationToken);
             lesson.RemoveInstructor();
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return new ApiResponse<LessonModel>

@@ -19,7 +19,7 @@ public class UpdateLessonCommandHandler(
     {
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(command.LessonId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.GetLessonByIdAsync(command.LessonId, cancellationToken);
 
             if (command.MaxStudents.HasValue) lesson.SetMaxStudents(command.MaxStudents.Value);
             if (command.Name is not null) lesson.SetName(command.Name);

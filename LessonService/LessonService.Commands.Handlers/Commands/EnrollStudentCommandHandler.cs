@@ -19,8 +19,8 @@ public class EnrollStudentCommandHandler(
     {
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(command.LessonId, cancellationToken);
-            var student = await unitOfWork.Lessons.FindStudent(command.StudentId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.GetLessonByIdAsync(command.LessonId, cancellationToken);
+            var student = await unitOfWork.Lessons.GetStudentByIdAsync(command.StudentId, cancellationToken);
             lesson.EnrollStudent(student);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return new ApiResponse<LessonModel>

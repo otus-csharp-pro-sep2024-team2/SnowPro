@@ -19,7 +19,7 @@ public class DeleteLessonCommandHandler(
     {
         try
         {
-            var lesson = await unitOfWork.Lessons.FindLesson(command.LessonId, cancellationToken);
+            var lesson = await unitOfWork.Lessons.GetLessonByIdAsync(command.LessonId, cancellationToken);
             await unitOfWork.Lessons.RemoveAsync(lesson);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
