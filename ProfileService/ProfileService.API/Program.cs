@@ -7,17 +7,12 @@ using ProfileService.Infrastructure.EntityFramework;
 using System.Reflection;
 using System.Text;
 
-IConfiguration configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", true, true)
-    .AddEnvironmentVariables()
-    .Build();
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddServices(configuration);
+builder.Services.AddServices(builder.Configuration);
 builder.Services.AddAutoMapper();
-builder.Services.AddMassTransitRmq(configuration);
+builder.Services.AddMassTransitRmq(builder.Configuration);
 
 // Add authentication
 var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]);

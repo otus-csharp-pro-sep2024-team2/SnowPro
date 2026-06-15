@@ -6,7 +6,7 @@ from pathlib import Path
 import argparse
 
 root_dir = Path(__file__).resolve().parent
-shared_proj = root_dir / "SnowPro.Shared" / "src" / "SnowPro.Shared" / "SnowPro.Shared.csproj"
+default_shared_proj = root_dir / "SnowPro.Shared" / "src" / "SnowPro.Shared" / "SnowPro.Shared.csproj"
 nuget_dir = root_dir / "nuget-packages"
 
 print("Starting build and publish process...")
@@ -49,8 +49,17 @@ def clean_and_restore(project_path):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--build', action='store_true', help='Build package only')
+parser.add_argument(
+    '--shared-proj-path',
+    default=str(default_shared_proj.relative_to(root_dir)),
+    help='Path to SnowPro.Shared.csproj (absolute or relative to script root)'
+)
 
 args = parser.parse_args()
+shared_proj = Path(args.shared_proj_path)
+if not shared_proj.is_absolute():
+    shared_proj = root_dir / shared_proj
+shared_proj = shared_proj.resolve()
 
 new_version = bump_version(shared_proj)
 
@@ -77,7 +86,7 @@ for csproj_path in root_dir.rglob("*.csproj"):
     # dotnet add package SnowPro.Shared --version=1.0.44 --source ../../nuget-packages
 #    text = csproj_path.read_text(encoding="utf-8")
 #    cmd = f"dotnet add {csproj_path.resolve()} package SnowPro.Shared --version={new_version} --source ../../nuget-packages"
-    cmd = f"dotnet add package SnowPro.Shared --version={new_version} --source ../../nuget-packages"
+    cmd = f"dotnet add package SnowPro.Shared --version={new_version}"
     run_cmd(cmd, cwd=csproj_path.parent)
 
     # Есть ли ссылка на SnowPro.Shared?
